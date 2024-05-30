@@ -1,4 +1,4 @@
-use std::io::{self, Write};
+use std::io::Write;
 
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
@@ -32,11 +32,7 @@ pub fn print_src(src: &str, mark: Mark) {
         println!("{}", line);
 
         if idx == mark.line as usize {
-            print_mark(
-                &mut stdout,
-                mark.col + max_line_num_width as u32,
-                mark.len.unwrap_or(1),
-            );
+            print_mark(&mut stdout, mark.col + max_line_num_width as u32, mark.len);
         }
     }
 }
