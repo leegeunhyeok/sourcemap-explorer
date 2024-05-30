@@ -40,4 +40,5 @@ fn main() {
 }
 
 mod sourcemap;
+mod types;
 mod utils;
