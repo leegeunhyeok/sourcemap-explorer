@@ -60,7 +60,7 @@ impl SourceMap {
         println!(
             "Position - {}:{}:{}",
             base_token.get_name().unwrap_or("<anonymous>"),
-            orig_line,
+            orig_line + 1, // Add 1 because line is zero based index
             orig_col
         );
     }
