@@ -4,13 +4,15 @@ Rust based sourcemap explorer for command-line interface.
 
 ## Features
 
-- ⭐️ Light-weight & blazing fast
+- ⚡️ Light-weight & blazing fast
 - 🗺️ Easy to reverse sourcemap mapping
+- 🌱 Print original source contents
 
 ## Installation
 
 ```bash
 # TBD
+# Go to Releases: https://github.com/leegeunhyeok/sourcemap-explorer/releases
 ```
 
 ## Usage
