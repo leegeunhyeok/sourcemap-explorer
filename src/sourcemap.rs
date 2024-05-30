@@ -15,7 +15,7 @@ impl SourceMap {
         }
     }
 
-    pub fn lookup(&self, line: u32, col: u32, print_contents: bool) {
+    pub fn lookup(&self, line: u32, col: u32, print_content: bool) {
         let mut token_size = 0;
         let base_token = self.sm.lookup_token(line, col);
 
@@ -37,7 +37,7 @@ impl SourceMap {
             }
         }
 
-        if print_contents {
+        if print_content {
             match base_token.get_source_view() {
                 Some(src_view) => {
                     let mark = Mark {
@@ -48,7 +48,7 @@ impl SourceMap {
 
                     print_src(src_view.source(), mark);
                 }
-                None => println!("Original source contents not found"),
+                None => println!("source content not found"),
             }
             println!("");
         }

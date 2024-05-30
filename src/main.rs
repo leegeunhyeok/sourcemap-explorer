@@ -16,9 +16,9 @@ struct Args {
     #[arg()]
     position: String,
 
-    /// Print the original source contents
+    /// Print the original source content
     #[arg(long)]
-    contents: bool,
+    content: bool,
 }
 
 fn main() {
@@ -36,7 +36,7 @@ fn main() {
 
     let sm: sourcemap::SourceMap = sourcemap::SourceMap::new(file);
 
-    sm.lookup(line, col, args.contents);
+    sm.lookup(line, col, args.content);
 }
 
 mod sourcemap;

@@ -6,7 +6,7 @@ Rust based sourcemap explorer for command-line interface.
 
 - ⚡️ Light-weight & blazing fast
 - 🗺️ Easy to reverse sourcemap mapping
-- 🌱 Print original source contents
+- 🌱 Print original source content
 
 ## Installation
 
@@ -18,7 +18,7 @@ Rust based sourcemap explorer for command-line interface.
 ## Usage
 
 ```bash
-sourcemap-explorer ./fixtures/bundle.js.map 1:549 --contents
+sourcemap-explorer ./fixtures/bundle.js.map 1:549 --content
 ```
 
 ```
@@ -31,7 +31,7 @@ Arguments:
   <POSITION>   Position of the source code (eg. 1:549)
 
 Options:
-      --contents  Print the original source contents
+      --content   Print the original source content
   -h, --help      Print help
   -V, --version   Print version
 ```
@@ -42,7 +42,7 @@ Options:
 
 ```bash
 # Run with fixtures
-cargo run -- ./fixtures/bundle.js.map 1:549 --contents
+cargo run -- ./fixtures/bundle.js.map 1:549 --content
 
 # build
 cargo build --target xxx --release
