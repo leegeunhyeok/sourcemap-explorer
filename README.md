@@ -36,6 +36,16 @@ Options:
 
 ![preview](image.png)
 
+## Development
+
+```bash
+# Run with fixtures
+cargo run -- ./fixtures/bundle.js.map 1:549 --contents
+
+# build
+cargo build --target xxx --release
+```
+
 ## License
 
 [BSD 3-Clause](./LICENSE)
