@@ -11,20 +11,23 @@ Rust based sourcemap explorer for command-line interface.
 ## Installation
 
 ```bash
-# TBD
-# Go to Releases: https://github.com/leegeunhyeok/sourcemap-explorer/releases
+# Homebrew
+brew tap leegeunhyeok/tap
+brew install sourcemap-explorer
+
+# Other platforms: TBD
 ```
 
 ## Usage
 
 ```bash
-sourcemap-explorer ./fixtures/bundle.js.map 1:549 --content
+smx ./fixtures/bundle.js.map 1:549 --content
 ```
 
 ```
 Sourcemap explorer
 
-Usage: sourcemap-explorer [OPTIONS] <SOURCEMAP> <POSITION>
+Usage: smx [OPTIONS] <SOURCEMAP> <POSITION>
 
 Arguments:
   <SOURCEMAP>  Sourcemap file path
@@ -45,7 +48,7 @@ Options:
 cargo run -- ./fixtures/bundle.js.map 1:549 --content
 
 # build
-cargo build --target xxx --release
+./scripts/build.sh
 ```
 
 ## License

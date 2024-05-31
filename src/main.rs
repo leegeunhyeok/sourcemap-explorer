@@ -6,7 +6,7 @@ use crate::utils::parse_position;
 
 /// Sourcemap explorer
 #[derive(Parser, Debug)]
-#[command(version = "1.0.0")]
+#[command(version = env!("CARGO_PKG_VERSION"))]
 struct Args {
     /// Sourcemap file path
     #[arg()]
