@@ -15,8 +15,7 @@ pub fn parse_position(position: &String) -> Result<Position, &'static str> {
         .collect::<Result<Vec<u32>, &'static str>>()?;
 
     if vec.len() == 2 {
-        // Convert to zero based index
-        Ok((vec[0] - 1, vec[1]))
+        Ok((vec[0], vec[1]))
     } else {
         Err(INVALID_POSITION_ERR_MSG)
     }

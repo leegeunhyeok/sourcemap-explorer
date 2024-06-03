@@ -17,7 +17,8 @@ impl SourceMap {
 
     pub fn lookup(&self, line: u32, col: u32, print_content: bool) {
         let mut token_size = 0;
-        let base_token = self.sm.lookup_token(line, col);
+        let zero_indexed_line = line - 1;
+        let base_token = self.sm.lookup_token(zero_indexed_line, col);
 
         if base_token.is_none() {
             println!("Lookup failed ({}:{})", line, col);
@@ -32,7 +33,7 @@ impl SourceMap {
             let dst_col = token.get_dst_col();
 
             if dst_col > col {
-                token_size = token.get_src_col() - orig_col;
+                token_size = token.get_src_col().abs_diff(orig_col);
                 break;
             }
         }
