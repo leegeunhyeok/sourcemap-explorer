@@ -18,7 +18,7 @@ pub fn read_file(path: String) -> Result<String, &'static str> {
 }
 
 pub fn to_valid_sm(contents: String) -> String {
-    let mut json: serde_json::Value = serde_json::from_str(&contents).unwrap();
+    let mut json: serde_json::Value = serde_json::from_str(&contents).expect("invalid sourcemap");
 
     if let Some(sm_obj) = json.as_object_mut() {
         if !sm_obj.contains_key("names") {
