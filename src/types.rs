@@ -63,6 +63,13 @@ impl ToString for RuntimeType {
     }
 }
 
+pub struct LookupResult {
+    pub position: Position,
+    pub source: Option<String>,
+    pub name: Option<String>,
+    pub content: Option<(String, Mark)>,
+}
+
 pub struct Mark {
     pub line: u32,
     pub col: u32,

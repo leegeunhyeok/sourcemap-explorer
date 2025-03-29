@@ -1,6 +1,8 @@
 use clap::Parser;
 use types::{Position, RuntimeType};
-use utils::read_file;
+use utils::{print_src, read_file};
+
+const ANONYMOUS: &str = "<anonymous>";
 
 /// Sourcemap explorer
 #[derive(Parser, Debug)]
@@ -18,6 +20,11 @@ struct Args {
     #[arg(long, default_value_t = RuntimeType::Default)]
     r#type: RuntimeType,
 
+    /// If you use Hermes runtime (--type hermes),
+    /// you need to provide the sourcemap file path of the packager (eg. Metro).
+    #[arg(long)]
+    hermes_packager_sourcemap: Option<String>,
+
     /// Print the original source content
     #[arg(long)]
     content: bool,
@@ -28,9 +35,36 @@ fn main() -> Result<(), String> {
 
     let contents = read_file(args.sourcemap)?;
     let position = Position::try_from(&args.position)?;
-    let sm: sourcemap::SourceMap = sourcemap::SourceMap::new(contents, args.r#type);
+    let sm: sourcemap::SourceMap = sourcemap::SourceMap::new(contents);
 
-    sm.lookup(position, args.content)?;
+    let res = match args.r#type {
+        RuntimeType::Default => sm.lookup(position)?,
+        RuntimeType::Hermes => match args.hermes_packager_sourcemap {
+            Some(hermes_packager_sourcemap) => {
+                let pkg_contents = read_file(hermes_packager_sourcemap)?;
+                let hbc_res = sm.lookup(position)?;
+                let pkg_res = sourcemap::SourceMap::new(pkg_contents).lookup(hbc_res.position)?;
+
+                pkg_res
+            }
+            None => return Err("packager sourcemap path is required".into()),
+        },
+    };
+
+    if args.content {
+        match res.content {
+            Some((src, mark)) => print_src(&src, mark),
+            None => println!("No content found"),
+        }
+        print!("\n");
+    }
+
+    println!("File - {}", res.source.unwrap_or(ANONYMOUS.into()),);
+    println!(
+        "Position - {}:{}",
+        res.name.unwrap_or(ANONYMOUS.into()),
+        res.position,
+    );
 
     Ok(())
 }

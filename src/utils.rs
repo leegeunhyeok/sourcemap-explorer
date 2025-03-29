@@ -29,7 +29,7 @@ pub fn to_valid_sm(contents: String) -> String {
     json.to_string()
 }
 
-pub fn print_src(src: &str, mark: Mark) {
+pub fn print_src(src: &String, mark: Mark) {
     let lines = src.lines();
     let max_line_num_width = lines.clone().count().to_string().len() + 1; // Additional space
     let mut stdout = StandardStream::stdout(ColorChoice::Always);

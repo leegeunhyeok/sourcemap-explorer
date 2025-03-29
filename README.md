@@ -22,7 +22,13 @@ brew install sourcemap-explorer
 
 ```bash
 # Defualt
-smx ./fixtures/bundle.js.map 5:11 --content
+smx ./fixtures/bundle.js.map 5:19 --content
+
+# Hermes
+smx ./fixtures/bundle.hbc.map 1:95 \
+  --type hermes \
+  --hermes-packager-sourcemap ./fixtures/bundle.js.map \
+  --content
 ```
 
 ```
@@ -35,16 +41,25 @@ Arguments:
   <POSITION>   Position of the source code (eg. 1:549)
 
 Options:
-      --type <TYPE>  Type of runtime [default: default] [possible values: default, hermes]
-      --content      Print the original source content
-  -h, --help         Print help
-  -V, --version      Print version
+      --type <TYPE>
+          Type of runtime [default: default] [possible values: default, hermes]
+      --hermes-packager-sourcemap <HERMES_PACKAGER_SOURCEMAP>
+          If you use Hermes runtime (--type hermes),
+          you need to provide the sourcemap file path of the packager (eg. Metro)
+      --content
+          Print the original source content
+  -h, --help
+          Print help
+  -V, --version
+          Print version
 ```
 
 ![preview](image.png)
 
 <details>
 <summary>Hermes</summary>
+
+> This section is a guide to lookup packager sourcemap from Hermes bytecode sourcemap manually.
 
 ```bash
 ./hermesc ./fixtures/bundle.hbc
@@ -58,7 +73,7 @@ Uncaught Error: Boom!
 ```
 
 ```bash
-smx ./fixtures/bundle.hbc.map 1:95 --type hermes
+smx ./fixtures/bundle.hbc.map 1:95
 
 # File - ./fixtures/bundle.js
 # Position - <anonymous>:5:19
@@ -66,7 +81,7 @@ smx ./fixtures/bundle.hbc.map 1:95 --type hermes
 
 ```js
 // `<anonymous>:5:19` in bundle.js
-throw new Error("Boom!");
+throw new Error('Boom!');
 ```
 
 And you can find the original source code from `index.js`
