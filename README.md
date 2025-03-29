@@ -22,7 +22,7 @@ brew install sourcemap-explorer
 
 ```bash
 # Defualt
-smx ./fixtures/bundle.js.map 1:549 --content
+smx ./fixtures/bundle.js.map 5:11 --content
 ```
 
 ```
@@ -47,28 +47,35 @@ Options:
 <summary>Hermes</summary>
 
 ```bash
-./hermesc fixtures/bundle.hbc
+./hermesc ./fixtures/bundle.hbc
 ```
 
 ```
-Uncaught Error: Dynamic require of "react" is not supported
-    at anonymous (address at bundle.hbc:1:233)
-    at proxy trap (native)
-    at anonymous (address at bundle.hbc:1:38)
-    at global (address at bundle.hbc:1:9)
+Hello, world!
+Uncaught Error: Boom!
+    at anonymous (address at ./fixtures/bundle.hbc:1:95)
+    at global (address at ./fixtures/bundle.hbc:1:9)
 ```
 
 ```bash
-smx ./fixtures/bundle.hbc.map 1:233 --type hermes --content
+smx ./fixtures/bundle.hbc.map 1:95 --type hermes
 
-# File - bundle.js
-# Position - <anonymous>:11:15
+# File - ./fixtures/bundle.js
+# Position - <anonymous>:5:19
 ```
 
 ```js
-// `<anonymous>:11:15` in bundle.js
-throw Error('Dynamic require of "' + x + '" is not supported');
+// `<anonymous>:5:19` in bundle.js
+throw new Error("Boom!");
 ```
+
+And you can find the original source code from `index.js`
+
+```bash
+smx ./fixtures/bundle.js.map 5:19 --content
+```
+
+![preview](hbc-lookup.png)
 
 </details>
 

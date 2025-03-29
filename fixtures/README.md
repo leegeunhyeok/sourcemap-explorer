@@ -2,41 +2,33 @@
 
 ## Code
 
-ESBuild [Playground](https://esbuild.github.io/try/#YgAwLjI1LjEAeyBzb3VyY2VtYXA6IHRydWUsIGJ1bmRsZTogdHJ1ZSwgZXh0ZXJuYWw6IFsicmVhY3QiLCAicmVhY3QtbmF0aXZlIl0gfQBlAEFwcC50c3gAaW1wb3J0IHsgdXNlU3RhdGUgfSBmcm9tICdyZWFjdCc7CmltcG9ydCB7IFZpZXcsIFRleHQgfSBmcm9tICdyZWFjdC1uYXRpdmUnOwppbXBvcnQgeyBCdXR0b24gfSBmcm9tICcuL0J1dHRvbic7CgpleHBvcnQgZnVuY3Rpb24gQXBwKCkgewogIGNvbnN0IFtjb3VudCwgc2V0Q291bnRdID0gdXNlU3RhdGUoMCk7CgogIGNvbnN0IGhhbmRsZVByZXNzID0gKCkgPT4gc2V0Q291bnQodiA9PiB2ICsgMSk7CgogIHJldHVybiAoCiAgICA8Vmlldz4KICAgICAgPFRleHQ+Q291bnQ6IHtjb3VudH08L1RleHQ+CiAgICAgIDxCdXR0b24gb25QcmVzcz17aGFuZGxlUHJlc3N9PlByZXNzIE1lITwvQnV0dG9uPgogICAgPC9WaWV3PgogICk7Cn0AAEJ1dHRvbi50c3gAaW1wb3J0IHR5cGUgeyBDb21wb25lbnRQcm9wcyB9IGZyb20gJ3JlYWN0JzsKaW1wb3J0IHsgUHJlc3NhYmxlIH0gZnJvbSAncmVhY3QtbmF0aXZlJzsKCmV4cG9ydCBmdW5jdGlvbiBCdXR0b24ocHJvcHM6IENvbXBvbmVudFByb3BzPHR5cGVvZiBQcmVzc2FibGU+KSB7CiAgcmV0dXJuIDxQcmVzc2FibGUgey4uLnByb3BzfSAvPgp9)
+ESBuild [Playground](https://esbuild.github.io/try/#YgAwLjI1LjEAeyBzb3VyY2VtYXA6IHRydWUsIGJ1bmRsZTogdHJ1ZSwgZXh0ZXJuYWw6IFsicmVhY3QiLCAicmVhY3QtbmF0aXZlIl0gfQBlAGluZGV4LmpzAGZ1bmN0aW9uIG1haW4oKSB7CiAgcHJpbnQoJ0hlbGxvLCB3b3JsZCEnKTsKCiAgdGhyb3cgbmV3IEVycm9yKCdCb29tIScpOwp9Cgp0eXBlb2YgcHJpbnQgPT09ICd1bmRlZmluZWQnICYmIChnbG9iYWxUaGlzLnByaW50ID0gY29uc29sZS5sb2cpCgptYWluKCk7)
 
 ```tsx
-// App.tsx
-import { useState } from 'react';
-import { View, Text } from 'react-native';
-import { Button } from './Button';
+// index.js
+function main() {
+  print('Hello, world!');
 
-export function App() {
-  const [count, setCount] = useState(0);
-
-  const handlePress = () => setCount((v) => v + 1);
-
-  return (
-    <View>
-      <Text>Count: {count}</Text>
-      <Button onPress={handlePress}>Press Me!</Button>
-    </View>
-  );
+  throw new Error('Boom!');
 }
+
+typeof print === 'undefined' && (globalThis.print = console.log)
+
+main();
 ```
 
-```tsx
-// Button.tsx
-import { Pressable } from 'react-native';
+## Hermes
 
-export function Button(props: ComponentProps<typeof Pressable>) {
-  return <Pressable {...props} />;
-}
-```
-
-## Compile HBC
+### Compile HBC
 
 Build [https://github.com/facebook/hermes](hermes) and run `hermesc` to compile the code into a HBC file.
 
 ```sh
-hermesc input.js -emit-binary -out output.hbc -output-source-map
+hermesc bundle.js -emit-binary -out bundle.hbc -output-source-map
+```
+
+### Run
+
+```sh
+hermes bundle.hbc
 ```

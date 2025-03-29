@@ -1,15 +1,11 @@
 {
   "version": 3,
   "sources": [
-    "App.tsx",
-    "Button.tsx"
+    "index.ts"
   ],
   "sourcesContent": [
-    "import { useState } from 'react';\nimport { View, Text } from 'react-native';\nimport { Button } from './Button';\n\nexport function App() {\n  const [count, setCount] = useState(0);\n\n  const handlePress = () => setCount(v => v + 1);\n\n  return (\n    <View>\n      <Text>Count: {count}</Text>\n      <Button onPress={handlePress}>Press Me!</Button>\n    </View>\n  );\n}",
-    "import type { ComponentProps } from 'react';\nimport { Pressable } from 'react-native';\n\nexport function Button(props: ComponentProps<typeof Pressable>) {\n  return <Pressable {...props} />\n}"
+    "\nfunction main() {\n  console.log('Hello, world!');\n\n  throw new Error('Boom!');\n}\n\nmain();"
   ],
-  "mappings": ";;;;;;;;;AAAA,qBAAyB;AACzB,MAAAA,uBAA2B;;;ACA3B,4BAA0B;AAEnB,WAAS,OAAO,OAAyC;AAC9D,WAAO,oCAAC,iCAAW,GAAG,OAAO;AAAA,EAC/B;;;ADDO,WAAS,MAAM;AACpB,UAAM,CAAC,OAAO,QAAQ,QAAI,uBAAS,CAAC;AAEpC,UAAM,cAAc,MAAM,SAAS,OAAK,IAAI,CAAC;AAE7C,WACE,oCAAC,iCACC,oCAAC,iCAAK,WAAQ,KAAM,GACpB,oCAAC,UAAO,SAAS,eAAa,WAAS,CACzC;AAAA,EAEJ;",
-  "names": [
-    "import_react_native"
-  ]
+  "mappings": ";;AACA,WAAS,OAAO;AACd,YAAQ,IAAI,eAAe;AAE3B,UAAM,IAAI,MAAM,OAAO;AAAA,EACzB;AAEA,OAAK;",
+  "names": []
 }
