@@ -16,7 +16,7 @@ impl Position {
     }
 
     pub fn get_col(&self) -> u32 {
-        self.0
+        self.1
     }
 }
 
@@ -24,7 +24,7 @@ impl TryFrom<&String> for Position {
     type Error = String;
 
     fn try_from(value: &String) -> Result<Self, Self::Error> {
-        let vec: Vec<u32> = value
+        let vec = value
             .split(":")
             .map(|s| s.parse::<u32>().map_err(|_| INVALID_POSITION_ERR_MSG))
             .collect::<Result<Vec<u32>, &'static str>>()?;
