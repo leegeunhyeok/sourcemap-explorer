@@ -1,8 +1,8 @@
 use oxc_sourcemap::SourceMap as RawSourceMap;
 
 use crate::{
-    types::{Mark, Position},
-    utils::print_src,
+    types::{Mark, Position, RuntimeType},
+    utils::{print_src, to_valid_sm},
 };
 
 pub struct SourceMap {
@@ -10,9 +10,16 @@ pub struct SourceMap {
 }
 
 impl SourceMap {
-    pub fn new(contents: String) -> Self {
+    pub fn new(contents: String, r#type: RuntimeType) -> Self {
+        let contents = match r#type {
+            RuntimeType::Default => &contents,
+            // Hermes bytecode sourcemap's `names` field can be optional,
+            // so we need to convert it to a valid sourcemap.
+            RuntimeType::Hermes => &to_valid_sm(contents),
+        };
+
         SourceMap {
-            sm: RawSourceMap::from_json_string(&contents).unwrap(),
+            sm: RawSourceMap::from_json_string(contents).unwrap(),
         }
     }
 

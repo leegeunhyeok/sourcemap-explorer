@@ -1,3 +1,4 @@
+use clap::ValueEnum;
 use std::fmt::{self, Display};
 
 const INVALID_POSITION_ERR_MSG: &'static str = "invalid position";
@@ -44,6 +45,21 @@ impl Display for Position {
             self.get_line() + 1, /* Restore from zero based index */
             self.get_col()
         )
+    }
+}
+
+#[derive(Debug, Clone, ValueEnum)]
+pub enum RuntimeType {
+    Default,
+    Hermes,
+}
+
+impl ToString for RuntimeType {
+    fn to_string(&self) -> String {
+        match self {
+            RuntimeType::Default => "default".to_string(),
+            RuntimeType::Hermes => "hermes".to_string(),
+        }
     }
 }
 

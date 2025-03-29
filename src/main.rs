@@ -1,5 +1,5 @@
 use clap::Parser;
-use types::Position;
+use types::{Position, RuntimeType};
 use utils::read_file;
 
 /// Sourcemap explorer
@@ -14,6 +14,10 @@ struct Args {
     #[arg()]
     position: String,
 
+    /// Type of runtime
+    #[arg(long, default_value_t = RuntimeType::Default)]
+    r#type: RuntimeType,
+
     /// Print the original source content
     #[arg(long)]
     content: bool,
@@ -24,7 +28,7 @@ fn main() -> Result<(), String> {
 
     let contents = read_file(args.sourcemap)?;
     let position = Position::try_from(&args.position)?;
-    let sm: sourcemap::SourceMap = sourcemap::SourceMap::new(contents);
+    let sm: sourcemap::SourceMap = sourcemap::SourceMap::new(contents, args.r#type);
 
     sm.lookup(position, args.content);
 

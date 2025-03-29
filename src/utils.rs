@@ -17,6 +17,18 @@ pub fn read_file(path: String) -> Result<String, &'static str> {
     Ok(contents)
 }
 
+pub fn to_valid_sm(contents: String) -> String {
+    let mut json: serde_json::Value = serde_json::from_str(&contents).unwrap();
+
+    if let Some(sm_obj) = json.as_object_mut() {
+        if !sm_obj.contains_key("names") {
+            sm_obj.insert("names".to_string(), serde_json::Value::Array(vec![]));
+        }
+    }
+
+    json.to_string()
+}
+
 pub fn print_src(src: &str, mark: Mark) {
     let lines = src.lines();
     let max_line_num_width = lines.clone().count().to_string().len() + 1; // Additional space

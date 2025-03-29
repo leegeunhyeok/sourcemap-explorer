@@ -34,9 +34,10 @@ Arguments:
   <POSITION>   Position of the source code (eg. 1:549)
 
 Options:
-      --content   Print the original source content
-  -h, --help      Print help
-  -V, --version   Print version
+      --type <TYPE>  Type of runtime [default: default] [possible values: default, hermes]
+      --content      Print the original source content
+  -h, --help         Print help
+  -V, --version      Print version
 ```
 
 ![preview](image.png)
