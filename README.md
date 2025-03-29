@@ -48,6 +48,8 @@ Options:
           you need to provide the sourcemap file path of the packager (eg. Metro)
       --content
           Print the original source content
+      --json
+          Print the result in JSON format
   -h, --help
           Print help
   -V, --version

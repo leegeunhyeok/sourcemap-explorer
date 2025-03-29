@@ -1,8 +1,7 @@
 use clap::Parser;
+use printer::{JsonPrinter, Printer, TextPrinter};
 use types::{Position, RuntimeType};
-use utils::{print_src, read_file};
-
-const ANONYMOUS: &str = "<anonymous>";
+use utils::read_file;
 
 /// Sourcemap explorer
 #[derive(Parser, Debug)]
@@ -28,6 +27,10 @@ struct Args {
     /// Print the original source content
     #[arg(long)]
     content: bool,
+
+    /// Print the result in JSON format
+    #[arg(long)]
+    json: bool,
 }
 
 fn main() -> Result<(), String> {
@@ -51,24 +54,17 @@ fn main() -> Result<(), String> {
         },
     };
 
-    if args.content {
-        match res.content {
-            Some((src, mark)) => print_src(&src, mark),
-            None => println!("No content found"),
-        }
-        print!("\n");
-    }
+    let printer: Box<dyn Printer> = match args.json {
+        true => Box::new(JsonPrinter::new(res)),
+        false => Box::new(TextPrinter::new(res)),
+    };
 
-    println!("File - {}", res.source.unwrap_or(ANONYMOUS.into()),);
-    println!(
-        "Position - {}:{}",
-        res.name.unwrap_or(ANONYMOUS.into()),
-        res.position,
-    );
+    printer.print(args.content);
 
     Ok(())
 }
 
+mod printer;
 mod sourcemap;
 mod types;
 mod utils;
