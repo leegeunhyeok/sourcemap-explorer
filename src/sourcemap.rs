@@ -1,6 +1,4 @@
-use std::fs::File;
-
-use sourcemap::SourceMap as RawSourceMap;
+use oxc_sourcemap::SourceMap as RawSourceMap;
 
 use crate::{types::Mark, utils::print_src};
 
@@ -9,16 +7,20 @@ pub struct SourceMap {
 }
 
 impl SourceMap {
-    pub fn new(file: File) -> Self {
+    pub fn new(contents: String) -> Self {
         SourceMap {
-            sm: RawSourceMap::from_reader(file).unwrap(),
+            sm: RawSourceMap::from_json_string(&contents).unwrap(),
         }
     }
 
     pub fn lookup(&self, line: u32, col: u32, print_content: bool) {
         let mut token_size = 0;
-        let zero_indexed_line = line - 1;
-        let base_token = self.sm.lookup_token(zero_indexed_line, col);
+        let lookup_table = self.sm.generate_lookup_table();
+        let base_token = self.sm.lookup_source_view_token(
+            &lookup_table,
+            line - 1, /* Zero based index */
+            col,
+        );
 
         if base_token.is_none() {
             println!("Lookup failed ({}:{})", line, col);
@@ -29,7 +31,7 @@ impl SourceMap {
         let orig_line = base_token.get_src_line();
         let orig_col = base_token.get_src_col();
 
-        for token in self.sm.tokens() {
+        for token in self.sm.get_tokens() {
             let dst_col = token.get_dst_col();
 
             if dst_col > col {
@@ -39,17 +41,16 @@ impl SourceMap {
         }
 
         if print_content {
-            match base_token.get_source_view() {
-                Some(src_view) => {
-                    let mark = Mark {
+            match base_token.get_source_content() {
+                Some(contents) => print_src(
+                    contents,
+                    Mark {
                         line: orig_line,
                         col: orig_col,
                         len: token_size,
-                    };
-
-                    print_src(src_view.source(), mark);
-                }
-                None => println!("source content not found"),
+                    },
+                ),
+                _ => println!("source content not found"),
             }
             println!("");
         }

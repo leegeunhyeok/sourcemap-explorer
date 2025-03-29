@@ -11,5 +11,5 @@ path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4.5.4", features = ["derive"] }
-sourcemap = "*"
+oxc_sourcemap = "3.0.0"
 termcolor = "1.4.1"

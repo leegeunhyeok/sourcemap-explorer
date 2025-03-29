@@ -1,10 +1,22 @@
-use std::io::Write;
+use std::{
+    fs::File,
+    io::{Read, Write},
+};
 
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
 use crate::types::Mark;
 
+const READ_FILE_ERR_MSG: &'static str = "cannot read file contents";
 const INVALID_POSITION_ERR_MSG: &'static str = "invalid position";
+
+pub fn read_file(path: String) -> Result<String, &'static str> {
+    let mut file = File::open(path).map_err(|_| READ_FILE_ERR_MSG)?;
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)
+        .map_err(|_| READ_FILE_ERR_MSG)?;
+    Ok(contents)
+}
 
 pub type Position = (u32, u32);
 

@@ -1,6 +1,7 @@
 use std::fs::File;
 
 use clap::Parser;
+use utils::read_file;
 
 use crate::utils::parse_position;
 
@@ -21,22 +22,19 @@ struct Args {
     content: bool,
 }
 
-fn main() {
+fn main() -> Result<(), &'static str> {
     let args = Args::parse();
-
-    let file = match File::open(args.sourcemap) {
-        Ok(file) => file,
-        Err(e) => panic!("cannot read sourcemap file: {}", e.to_string()),
-    };
+    let contents = read_file(args.sourcemap)?;
 
     let (line, col) = match parse_position(&args.position) {
         Ok(position) => position,
         Err(e) => panic!("cannot parse given position value: {}", e.to_string()),
     };
 
-    let sm: sourcemap::SourceMap = sourcemap::SourceMap::new(file);
+    let sm: sourcemap::SourceMap = sourcemap::SourceMap::new(contents);
 
     sm.lookup(line, col, args.content);
+    Ok(())
 }
 
 mod sourcemap;
