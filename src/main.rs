@@ -1,7 +1,6 @@
 use clap::Parser;
+use types::Position;
 use utils::read_file;
-
-use crate::utils::parse_position;
 
 /// Sourcemap explorer
 #[derive(Parser, Debug)]
@@ -20,18 +19,15 @@ struct Args {
     content: bool,
 }
 
-fn main() -> Result<(), &'static str> {
+fn main() -> Result<(), String> {
     let args = Args::parse();
+
     let contents = read_file(args.sourcemap)?;
-
-    let (line, col) = match parse_position(&args.position) {
-        Ok(position) => position,
-        Err(e) => panic!("cannot parse given position value: {}", e.to_string()),
-    };
-
+    let position = Position::try_from(&args.position)?;
     let sm: sourcemap::SourceMap = sourcemap::SourceMap::new(contents);
 
-    sm.lookup(line, col, args.content);
+    sm.lookup(position, args.content);
+
     Ok(())
 }
 

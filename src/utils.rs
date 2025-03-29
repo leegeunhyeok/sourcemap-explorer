@@ -8,7 +8,6 @@ use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 use crate::types::Mark;
 
 const READ_FILE_ERR_MSG: &'static str = "cannot read file contents";
-const INVALID_POSITION_ERR_MSG: &'static str = "invalid position";
 
 pub fn read_file(path: String) -> Result<String, &'static str> {
     let mut file = File::open(path).map_err(|_| READ_FILE_ERR_MSG)?;
@@ -16,21 +15,6 @@ pub fn read_file(path: String) -> Result<String, &'static str> {
     file.read_to_string(&mut contents)
         .map_err(|_| READ_FILE_ERR_MSG)?;
     Ok(contents)
-}
-
-pub type Position = (u32, u32);
-
-pub fn parse_position(position: &String) -> Result<Position, &'static str> {
-    let vec = position
-        .split(":")
-        .map(|s| s.parse::<u32>().map_err(|_| INVALID_POSITION_ERR_MSG))
-        .collect::<Result<Vec<u32>, &'static str>>()?;
-
-    if vec.len() == 2 {
-        Ok((vec[0], vec[1]))
-    } else {
-        Err(INVALID_POSITION_ERR_MSG)
-    }
 }
 
 pub fn print_src(src: &str, mark: Mark) {

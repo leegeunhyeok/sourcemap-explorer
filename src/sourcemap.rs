@@ -1,6 +1,9 @@
 use oxc_sourcemap::SourceMap as RawSourceMap;
 
-use crate::{types::Mark, utils::print_src};
+use crate::{
+    types::{Mark, Position},
+    utils::print_src,
+};
 
 pub struct SourceMap {
     sm: RawSourceMap,
@@ -13,17 +16,17 @@ impl SourceMap {
         }
     }
 
-    pub fn lookup(&self, line: u32, col: u32, print_content: bool) {
+    pub fn lookup(&self, position: Position, print_content: bool) {
         let mut token_size = 0;
         let lookup_table = self.sm.generate_lookup_table();
         let base_token = self.sm.lookup_source_view_token(
             &lookup_table,
-            line - 1, /* Zero based index */
-            col,
+            position.get_line(),
+            position.get_col(),
         );
 
         if base_token.is_none() {
-            println!("Lookup failed ({}:{})", line, col);
+            println!("Lookup failed ({})", position);
             return;
         }
 
@@ -34,7 +37,7 @@ impl SourceMap {
         for token in self.sm.get_tokens() {
             let dst_col = token.get_dst_col();
 
-            if dst_col > col {
+            if dst_col > position.1 {
                 token_size = token.get_src_col().abs_diff(orig_col);
                 break;
             }
