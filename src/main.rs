@@ -30,7 +30,7 @@ fn main() -> Result<(), String> {
     let position = Position::try_from(&args.position)?;
     let sm: sourcemap::SourceMap = sourcemap::SourceMap::new(contents, args.r#type);
 
-    sm.lookup(position, args.content);
+    sm.lookup(position, args.content)?;
 
     Ok(())
 }

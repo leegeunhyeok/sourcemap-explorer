@@ -23,7 +23,7 @@ impl SourceMap {
         }
     }
 
-    pub fn lookup(&self, position: Position, print_content: bool) {
+    pub fn lookup(&self, position: Position, print_content: bool) -> Result<(), String> {
         let mut token_size = 0;
         let lookup_table = self.sm.generate_lookup_table();
         let base_token = self.sm.lookup_source_view_token(
@@ -33,8 +33,7 @@ impl SourceMap {
         );
 
         if base_token.is_none() {
-            println!("Lookup failed ({})", position);
-            return;
+            return Err(format!("Lookup failed ({})", position));
         }
 
         let base_token = base_token.expect("unexpected error");
@@ -75,5 +74,7 @@ impl SourceMap {
             orig_line + 1, // Add 1 because line is zero based index
             orig_col
         );
+
+        Ok(())
     }
 }
