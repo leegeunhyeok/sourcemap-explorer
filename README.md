@@ -21,6 +21,7 @@ brew install sourcemap-explorer
 ## Usage
 
 ```bash
+# Defualt
 smx ./fixtures/bundle.js.map 1:549 --content
 ```
 
@@ -41,6 +42,35 @@ Options:
 ```
 
 ![preview](image.png)
+
+<details>
+<summary>Hermes</summary>
+
+```bash
+./hermesc fixtures/bundle.hbc
+```
+
+```
+Uncaught Error: Dynamic require of "react" is not supported
+    at anonymous (address at bundle.hbc:1:233)
+    at proxy trap (native)
+    at anonymous (address at bundle.hbc:1:38)
+    at global (address at bundle.hbc:1:9)
+```
+
+```bash
+smx ./fixtures/bundle.hbc.map 1:233 --type hermes --content
+
+# File - bundle.js
+# Position - <anonymous>:11:15
+```
+
+```js
+// `<anonymous>:11:15` in bundle.js
+throw Error('Dynamic require of "' + x + '" is not supported');
+```
+
+</details>
 
 ## Development
 
