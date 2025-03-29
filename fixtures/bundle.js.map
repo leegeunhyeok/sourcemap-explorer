@@ -1,11 +1,11 @@
 {
   "version": 3,
   "sources": [
-    "index.ts"
+    "index.js"
   ],
   "sourcesContent": [
-    "\nfunction main() {\n  console.log('Hello, world!');\n\n  throw new Error('Boom!');\n}\n\nmain();"
+    "function main() {\n  print('Hello, world!');\n\n  throw new Error('Boom!');\n}\n\ntypeof print === 'undefined' && (globalThis.print = console.log)\n\nmain();"
   ],
-  "mappings": ";;AACA,WAAS,OAAO;AACd,YAAQ,IAAI,eAAe;AAE3B,UAAM,IAAI,MAAM,OAAO;AAAA,EACzB;AAEA,OAAK;",
+  "mappings": ";;AAAA,WAAS,OAAO;AACd,UAAM,eAAe;AAErB,UAAM,IAAI,MAAM,OAAO;AAAA,EACzB;AAEA,SAAO,UAAU,gBAAgB,WAAW,QAAQ,QAAQ;AAE5D,OAAK;",
   "names": []
 }
