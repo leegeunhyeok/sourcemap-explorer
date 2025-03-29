@@ -1,5 +1,3 @@
-use std::fs::File;
-
 use clap::Parser;
 use utils::read_file;
 
